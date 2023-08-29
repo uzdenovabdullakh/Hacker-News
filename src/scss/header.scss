@@ -1,0 +1,48 @@
+$color: #40826d;
+$bg-color: #1d1b1b;
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  color: $color;
+  z-index: 10;
+}
+.header-container {
+  margin: 0 auto;
+  padding: 20px;
+  max-width: 767px;
+  background-color: $bg-color;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+.header-logo {
+  font-size: 2rem;
+  font-weight: 700;
+}
+.header-sort-list {
+  display: inherit;
+}
+.header-sort-list__item {
+  margin-right: 1.5rem;
+  cursor: pointer;
+}
+.header-search__input {
+  outline: none;
+  text-indent: 0.5em;
+  font-size: 1em;
+}
+.search-btn {
+  width: 20px;
+  height: 20px;
+  margin-left: -25px;
+  cursor: pointer;
+}
+.header-search-form {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}

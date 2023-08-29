@@ -1,0 +1,38 @@
+@use 'reset';
+
+$color-404: #006633;
+$color-link: #11a85a;
+$bg-color: #111111;
+
+.page_box {
+  height: 100vh;
+  background-color: $bg-color;
+  color: $color-404;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+.box {
+  h2 {
+    font-weight: 700;
+    font-size: 25vh;
+    margin: 0;
+    line-height: 1;
+  }
+}
+.box {
+  h2 + p {
+      font-size: 3vh;
+    
+  }
+}
+.back {
+  margin-top: 30px;
+}
+.back {
+  a {
+    text-decoration: none;
+    color: $color-link;
+  }
+}

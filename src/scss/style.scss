@@ -1,0 +1,76 @@
+@use "reset";
+@use "header";
+@use "news-list";
+
+$color-btn: #00ff00;
+$bg-color: #111111;
+$btn-bg-color: #1d1b1b;
+
+body {
+  height: 100vh;
+  background-color: $bg-color;
+  font-family: "Montserrat", sans-serif;
+}
+
+.wrapper {
+  margin: 0 auto;
+  padding-left: 20px;
+  padding-right: 20px;
+  max-width: 767px;
+  position: relative;
+}
+
+.news-list-container {
+  padding-top: 22vh;
+  padding-bottom: 5vh;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  justify-content: space-around;
+}
+
+.update-btn {
+  width: 30px;
+  cursor: pointer;
+  margin-top: 6rem;
+  right: 20px;
+  position: absolute;
+}
+
+.more-btn {
+  background-color: $btn-bg-color;
+  color: $color-btn;
+  outline: none;
+  border: none;
+  padding: 10px;
+  font-size: 1rem;
+  font-weight: 500;
+  font-style: italic;
+  cursor: pointer;
+  margin-bottom: 4vh;
+}
+
+.lds-dual-ring {
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+  &::after{
+    content: " ";
+    display: block;
+    width: 64px;
+    height: 64px;
+    margin: 8px;
+    border-radius: 50%;
+    border: 6px solid $color-btn;
+    border-color: $color-btn transparent $color-btn transparent;
+    animation: lds-dual-ring 1.2s linear infinite;
+  }
+}
+@keyframes lds-dual-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

@@ -9,7 +9,7 @@ function News() {
   const location = useLocation();
 
   const { state } = location;
-  const id  = state?.id || Number(location.pathname.slice(6)); //взять id из state navigate или из url
+  const id = state?.id || Number(location.pathname.slice(6)); //взять id из state navigate или из url
 
   const titleRef = useRef(null);
   const nicknameRef = useRef(null);
@@ -33,11 +33,12 @@ function News() {
       nicknameRef.current.innerHTML = `by ${res.data.by}`;
       formateDate(res.data.time);
       urlRef.current.href = res.data.url;
+      urlRef.current.innerHTML = "Ссылка на новость";
       scoreRef.current.innerHTML = `${res.data.score} points`;
+      setIsLoading(false);
     } catch (e) {
       console.log(e);
     }
-    setIsLoading(false)
   };
 
   useEffect(() => {
@@ -49,15 +50,16 @@ function News() {
       <Link to="/" className="back-link">
         ← Назад
       </Link>
-      {loading ? <Loader /> : (<h1 className="news-title" ref={titleRef}> </h1>) }
+      {loading ? <Loader /> : null}
+      <h1 className="news-title" ref={titleRef}>
+        {" "}
+      </h1>
       <ul className="news-info">
         <li className="news-info__elem" ref={scoreRef}></li>
         <li className="news-info__elem" ref={nicknameRef}></li>
         <li className="news-info__elem" ref={dateRef}></li>
       </ul>
-      <Link to="" className="original-link" target="blank" ref={urlRef}>
-        Ссылка на новость
-      </Link>
+      <Link to="" className="original-link" target="blank" ref={urlRef}></Link>
       <CommentsContainer id={id} />
     </div>
   );

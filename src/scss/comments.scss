@@ -66,3 +66,55 @@ $color-info-btn: #00ff00;
   gap: 0.5em;
 }
 
+.comment-text {
+  code {
+    display: block;
+    width: 767px;
+    #text {
+      width: 767px;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .comments-wrapper {
+    max-width: 565px;
+  }
+  .comment-info {
+    font-size: 0.9rem;
+  }
+  .comment-text {
+    font-size: 0.9rem;
+  }
+  .comment-tree {
+    button {
+      font-size: 0.9rem;
+    }
+  }
+  .answers {
+    max-width: 450px;
+  }
+}
+
+@media screen and (max-width: 565px) {
+  .comments-wrapper {
+    max-width: 320px;
+  }
+  .comment-info {
+    font-size: 0.8rem;
+  }
+  .comment-text {
+    font-size: 0.8rem;
+  }
+  .comment-tree {
+    button {
+      font-size: 0.8rem;
+    }
+  }
+  .comments__count {
+    font-size: 0.8rem;
+  }
+  .answers {
+    max-width: 250px;
+  }
+}

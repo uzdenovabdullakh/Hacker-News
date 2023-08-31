@@ -6,7 +6,7 @@ import Loader from "./components/Loader";
 
 function App() {
   const [news, setNews] = useState([]);
-  const [click, setClick] = useState(10);
+  const [click, setClick] = useState(110);
   const [loading, setIsLoading] = useState(true);
 
   const handleNews = React.useCallback(
@@ -25,46 +25,49 @@ function App() {
 
   const getNews = async (arrSize) => {
     try {
-      const response = await api.get(`/newstories.json?print=pretty`);
-      const data = [...response.data.slice(0, arrSize)];
-      const obj = [];
+      const res = await api.get(`/newstories.json?print=pretty`);
+      const data = [...res.data.slice(0, arrSize)];
+      const news = data.map((el, index) => {
+        return <NewsList key={index} id={el} />;
+      });
+      setNews([...news]);
+      setIsLoading(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
+  const setObj = async () =>{
+    try {
+      const res = await api.get(`/newstories.json?print=pretty`);
+      const data = [...res.data];
+      const obj = [];
       data.forEach(async (el) => {
         try {
           const res = await api.get(`/item/${el}.json?print=pretty`);
-          const data = res.data;
+          const data = await res.data;
           obj.push(data);
-          const news = obj.map((el, index) => {
-            return (
-              <NewsList
-                key={index}
-                id={el.id}
-                title={el.title}
-                rating={el.score}
-                nickname={el.by}
-                date={el.time}
-              />
-            );
-          });
-          setNews([...news]);
-          setIsLoading(false);
         } catch (err) {
-          console.log(err);
+          console.error(err);
         }
+        sessionStorage.setItem("newsObj", JSON.stringify(obj));
       });
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
-  };
+  }
 
   useEffect(() => {
     setIsLoading(true);
     getNews(100);
+    setObj()
   }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
+      setIsLoading(true);
       getNews(100);
+      setObj()
     }, 60 * 1000);
 
     return () => clearInterval(interval);
@@ -73,7 +76,7 @@ function App() {
   const handleMoreClick = () => {
     setIsLoading(true);
     getNews(click);
-    setClick(click + 5);
+    setClick(click + 10);
   };
 
   const handleUpdateClick = () => {
@@ -91,7 +94,9 @@ function App() {
         type="button"
         onClick={handleUpdateClick}
       />
-      <div className="news-list-container">{loading ? <Loader /> : news}</div>
+      <div className="news-list-container">
+        {loading ? <Loader /> : news}
+      </div>
       <button className="more-btn" type="button" onClick={handleMoreClick}>
         More news...
       </button>

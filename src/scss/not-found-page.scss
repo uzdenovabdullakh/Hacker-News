@@ -1,4 +1,4 @@
-@use 'reset';
+@use "reset";
 
 $color-404: #006633;
 $color-link: #11a85a;
@@ -23,8 +23,7 @@ $bg-color: #111111;
 }
 .box {
   h2 + p {
-      font-size: 3vh;
-    
+    font-size: 3vh;
   }
 }
 .back {
@@ -34,5 +33,26 @@ $bg-color: #111111;
   a {
     text-decoration: none;
     color: $color-link;
+  }
+}
+
+@media screen and (max-width: 565px) {
+  .back {
+    a {
+      font-size: 2.5vh;
+    }
+  }
+  .box {
+    h2 {
+      font-weight: 700;
+      font-size: 20vh;
+      margin: 0;
+      line-height: 1;
+    }
+  }
+  .box {
+    h2 + p {
+      font-size: 2vh;
+    }
   }
 }

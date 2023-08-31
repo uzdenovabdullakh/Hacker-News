@@ -1,85 +1,98 @@
 import React, { useEffect, useRef, useState } from "react";
 import { api } from "../utils/axios/axios";
 import PropTypes from "prop-types";
+import Comment from "./Comment";
 import Loader from "./Loader";
 
-const Comment = React.lazy(() => new Promise(resolve =>{
-  setTimeout(()=>{
-    resolve(import("./Comment"))
-  }, 3000)
-}));
+// const Comment = React.lazy(
+//   () =>
+//     new Promise((resolve) => {
+//       setTimeout(() => {
+//         resolve(import("./Comment"));
+//       }, 4000);
+//     })
+// );
 
 function CommentsContainer(props) {
   const { id } = props;
 
   const [comments, setComments] = useState([]);
+  const [loading, setIsLoading] = useState(true);
 
   const commentsCountRef = useRef(null);
 
   const getComments = async () => {
     try {
       const commentId = await api.get(`/item/${id}.json?print=pretty`);
-
+      
       if (!commentId.data.kids) {
         setComments(["No comments"]);
       } else {
         const obj = [];
-        commentId.data.kids.forEach(async (el) => {
-          try {
-            const res = await api.get(`/item/${el}.json?print=pretty`);
-            const data = res.data;
-            obj.push(data);
-
-            const commentsArr = obj.map((el, index) => {
-              if (!el.deleted && !el.dead) {
-                return (
-                  <Comment
-                    key={index}
-                    id={el.id}
-                    text={el.text}
-                    nickname={el.by}
-                    date={el.time}
-                  />
-                );
-              } else {
-                return (
-                  <Comment
-                    key={index}
-                    id={el.id}
-                    text={"deleted"}
-                    nickname={el.by}
-                    date={el.time}
-                  />
-                );
-              }
-            });
-            setComments([...commentsArr]);
-          } catch (err) {
-            console.error(err);
-          }
+        
+        commentId.data.kids.forEach((el, index) => {
+          obj.push(<Comment key={index} id={el} />);
         });
+        setComments([...obj]);
+        setIsLoading(false)
+        // commentId.data.kids.forEach(async (el) => {
+        //   try {
+        //     const res = await api.get(`/item/${el}.json?print=pretty`);
+        //     const data = res.data;
+        //     obj.push(data);
+
+        //     const commentsArr = obj.map((el, index) => {
+        //       if (!el.deleted && !el.dead) {
+        //         return (
+        //           <Comment
+        //             key={index}
+        //             id={el.id}
+        //             text={el.text}
+        //             nickname={el.by}
+        //             date={el.time}
+        //           />
+        //         );
+        //       } else {
+        //         return (
+        //           <Comment
+        //             key={index}
+        //             id={el.id}
+        //             text={"deleted"}
+        //             nickname={el.by}
+        //             date={el.time}
+        //           />
+        //         );
+        //       }
+        //     });
+        //     setComments([...commentsArr]);
+        //   } catch (err) {
+        //     console.error(err);
+        //   }
+        // });
       }
     } catch (e) {
       console.log(e);
     }
   };
 
-  useEffect(() => {
-    const getCommentsCount = async () => {
-      try {
-        const res = await api.get(`/item/${id}.json?print=pretty`);
-        commentsCountRef.current.innerHTML = `${res.data.descendants} comments`;
-      } catch (e) {
-        console.log(e);
-      }
-    };
+  const getCommentsCount = async () => {
+    try {
+      const res = await api.get(`/item/${id}.json?print=pretty`);
+      commentsCountRef.current.innerHTML = `${res.data.descendants} comments`;
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
+  useEffect(() => {
     getComments();
     getCommentsCount();
   }, []);
 
   const handleUpdateClick = () => {
+    setIsLoading(true)
     getComments();
+    getCommentsCount();
   };
 
   return (
@@ -95,7 +108,8 @@ function CommentsContainer(props) {
         />
       </div>
       <div className="comments-container">
-        <React.Suspense fallback={<Loader />}>{comments}</React.Suspense>
+        {loading ? <Loader /> : comments}
+        {/* <React.Suspense fallback={<Loader />}>{comments}</React.Suspense> */}
       </div>
     </div>
   );

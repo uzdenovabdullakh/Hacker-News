@@ -2,11 +2,14 @@ import React, { useRef } from "react";
 import PropTypes from "prop-types";
 import { api } from "../utils/axios/axios";
 import NewsList from "./NewList";
+import { useSelector } from "react-redux"
 
 function Header(props) {
   const { handleNews, handleLoading } = props;
 
   const searchRef = useRef(null);
+
+  const select = useSelector((state) => state.stories)
 
   const getNews = async () => {
     try {
@@ -41,9 +44,8 @@ function Header(props) {
   };
 
   const getSearchNews = async (value) => {
-    const data = JSON.parse(sessionStorage.getItem("newsObj"));
     const news = [];
-    data.forEach((el, index) => {
+    select.stories.forEach((el, index) => {
       if (el.title.toLowerCase().includes(value.toLowerCase())) {
         console.log(el)
         news.push(<NewsList key={index} id={el.id} />);

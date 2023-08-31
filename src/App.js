@@ -3,11 +3,15 @@ import { api } from "./utils/axios/axios";
 import Header from "./components/Header";
 import NewsList from "./components/NewList";
 import Loader from "./components/Loader";
+import { useDispatch } from "react-redux";
+import { setStories } from "./utils/store/slice/storiesSlice";
 
 function App() {
   const [news, setNews] = useState([]);
   const [click, setClick] = useState(110);
   const [loading, setIsLoading] = useState(true);
+
+  const dispatch = useDispatch();
 
   const handleNews = React.useCallback(
     (newsArr) => {
@@ -37,37 +41,47 @@ function App() {
     }
   };
 
-  const setObj = async () =>{
+  const setObj = async () => {
     try {
       const res = await api.get(`/newstories.json?print=pretty`);
       const data = [...res.data];
       const obj = [];
+
       data.forEach(async (el) => {
         try {
           const res = await api.get(`/item/${el}.json?print=pretty`);
           const data = await res.data;
-          obj.push(data);
+          obj.push(data)
+          // dispatch(
+          //   setStories({
+          //     stories: data,
+          //   })
+          // );
         } catch (err) {
           console.error(err);
         }
-        sessionStorage.setItem("newsObj", JSON.stringify(obj));
+        dispatch(
+          setStories({
+            stories: [...obj],
+          })
+        );
       });
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   useEffect(() => {
     setIsLoading(true);
     getNews(100);
-    setObj()
+    setObj();
   }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setIsLoading(true);
       getNews(100);
-      setObj()
+      setObj();
     }, 60 * 1000);
 
     return () => clearInterval(interval);
@@ -94,9 +108,7 @@ function App() {
         type="button"
         onClick={handleUpdateClick}
       />
-      <div className="news-list-container">
-        {loading ? <Loader /> : news}
-      </div>
+      <div className="news-list-container">{loading ? <Loader /> : news}</div>
       <button className="more-btn" type="button" onClick={handleMoreClick}>
         More news...
       </button>

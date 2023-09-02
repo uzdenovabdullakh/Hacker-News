@@ -13,7 +13,7 @@ function CommentsContainer(props) {
 
   const commentsCountRef = useRef(null);
 
-  const getComments = async () => {
+  const getComments = React.useCallback(async () => {
     try {
       const commentId = await api.get(`/item/${id}.json?print=pretty`);
 
@@ -32,21 +32,21 @@ function CommentsContainer(props) {
     } catch (e) {
       console.log(e);
     }
-  };
+  },[id]);
 
-  const getCommentsCount = async () => {
+  const getCommentsCount = React.useCallback(async () => {
     try {
       const res = await api.get(`/item/${id}.json?print=pretty`);
       commentsCountRef.current.innerHTML = `${res.data.descendants} comments`;
     } catch (e) {
       console.log(e);
     }
-  };
+  },[id]);
 
   useEffect(() => {
     getComments();
     getCommentsCount();
-  }, []);
+  }, [getCommentsCount, getComments]);
 
   const handleUpdateClick = () => {
     setIsLoading(true);

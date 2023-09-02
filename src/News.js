@@ -26,7 +26,7 @@ function News() {
     dateRef.current.innerHTML = humanDateFormat;
   };
 
-  const getNewsData = async () => {
+  const getNewsData = React.useCallback(async () => {
     try {
       const res = await api.get(`/item/${id}.json?print=pretty`);
       titleRef.current.innerHTML = res.data.title;
@@ -40,11 +40,11 @@ function News() {
     } catch (e) {
       console.log(e);
     }
-  };
+  },[id]);
 
   useEffect(() => {
     getNewsData();
-  }, []);
+  }, [getNewsData]);
 
   return (
     <div className="news-wrapper">

@@ -42,7 +42,7 @@ function App() {
     }
   };
 
-  const setObj = async () => {
+  const setObj = React.useCallback(async () => {
     try {
       const res = await api.get(`/newstories.json?print=pretty`);
       const data = [...res.data];
@@ -65,14 +65,17 @@ function App() {
     } catch (error) {
       console.error(error);
     }
-  };
+  }, [dispatch]);
+
+  useEffect(() => {
+    document.title ="Hacker News";
+  })
 
   useEffect(() => {
     setIsLoading(true);
     getNews(100);
-    document.title ="Hacker News";
     setObj();
-  }, []);
+  }, [setObj]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -82,7 +85,7 @@ function App() {
     }, 60 * 1000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [setObj]);
 
   const handleMoreClick = () => {
     setIsLoading(true);

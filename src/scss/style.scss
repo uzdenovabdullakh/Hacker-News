@@ -23,10 +23,16 @@ body {
 .news-list-container {
   padding-top: 20vh;
   padding-bottom: 5vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: column;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
   gap: 1em;
-  justify-content: space-around;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
 }
 
 .update-btn {
@@ -63,15 +69,28 @@ body {
     border-radius: 50%;
     border: 6px solid $color-btn;
     border-color: $color-btn transparent $color-btn transparent;
-    animation: lds-dual-ring 1.2s linear infinite;
+    -webkit-animation: lds-dual-ring 1.2s linear infinite;
+            animation: lds-dual-ring 1.2s linear infinite;
+  }
+}
+@-webkit-keyframes lds-dual-ring {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
   }
 }
 @keyframes lds-dual-ring {
   0% {
-    transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
   }
   100% {
-    transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
   }
 }
 

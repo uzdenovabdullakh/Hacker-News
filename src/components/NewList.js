@@ -20,7 +20,7 @@ function NewsList(props) {
     return humanDateFormat;
   };
 
-  const setNewsData = async () => {
+  const setNewsData = React.useCallback(async () => {
     try {
       const res = await api.get(`/item/${id}.json?print=pretty`);
       const data = res.data;
@@ -33,11 +33,11 @@ function NewsList(props) {
     } catch (err) {
       console.error(err);
     }
-  };
+  },[id]);
 
   useEffect(() => {
     setNewsData();
-  }, []);
+  }, [setNewsData]);
 
   const handleClick = () => {
     navigate(`/news/${id}`, { state: { id: id } });

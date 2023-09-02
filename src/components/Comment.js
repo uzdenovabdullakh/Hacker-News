@@ -33,7 +33,7 @@ function Comment(props) {
     return humanDateFormat;
   };
 
-  const getAnswersCount = async () => {
+  const getAnswersCount = React.useCallback(async () => {
     try {
       const res = await api.get(`/item/${id}.json?print=pretty`);
       const data = res.data.kids;
@@ -46,9 +46,9 @@ function Comment(props) {
     } catch (e) {
       console.log(e);
     }
-  };
+  },[id]);
 
-  const setComment = async () => {
+  const setComment = React.useCallback(async () => {
     try {
       const res = await api.get(`/item/${id}.json?print=pretty`);
       const data = res.data;
@@ -66,12 +66,12 @@ function Comment(props) {
     } catch (err) {
       console.error(err);
     }
-  };
+  },[id]);
 
   useEffect(() => {
     setComment();
     getAnswersCount();
-  }, []);
+  }, [setComment, getAnswersCount]);
 
   const handleOpenAnswers = async (e) => {
     e.preventDefault();

@@ -44,15 +44,14 @@ function Header(props) {
     }
   };
 
-  const getSearchNews = async (value) => {
+  const getSearchNews = (value) => {
     const news = [];
     select.stories.forEach((el, index) => {
       if (el.title.toLowerCase().includes(value.toLowerCase())) {
-        console.log(el)
         news.push(<NewsList key={index} id={el.id} />);
-        handleNews([...news]);
       }
     });
+    handleNews([...news]);
     handleLoading(false);
   };
 

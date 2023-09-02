@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { api } from "../utils/axios/axios";
 import NewsList from "./NewList";
 import { useSelector } from "react-redux"
+import image from '../assets/icon-search.png'
 
 function Header(props) {
   const { handleNews, handleLoading } = props;
@@ -135,7 +136,7 @@ function Header(props) {
               ref={searchRef}
             />
             <img
-              src={process.env.PUBLIC_URL + "/icon-search.png"}
+              src={image}
               alt="search"
               className="search-btn"
               type="button"

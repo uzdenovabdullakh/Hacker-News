@@ -5,6 +5,7 @@ import NewsList from "./components/NewList";
 import Loader from "./components/Loader";
 import { useDispatch } from "react-redux";
 import { setStories } from "./utils/store/slice/storiesSlice";
+import image from './assets/icons-update.png'
 
 function App() {
   const [news, setNews] = useState([]);
@@ -52,11 +53,6 @@ function App() {
           const res = await api.get(`/item/${el}.json?print=pretty`);
           const data = await res.data;
           obj.push(data)
-          // dispatch(
-          //   setStories({
-          //     stories: data,
-          //   })
-          // );
         } catch (err) {
           console.error(err);
         }
@@ -74,6 +70,7 @@ function App() {
   useEffect(() => {
     setIsLoading(true);
     getNews(100);
+    document.title ="Hacker News";
     setObj();
   }, []);
 
@@ -102,7 +99,7 @@ function App() {
     <div className="wrapper">
       <Header handleNews={handleNews} handleLoading={handleLoading} />
       <img
-        src={process.env.PUBLIC_URL + "icons-update.png"}
+        src={image}
         alt="update"
         className="update-btn"
         type="button"

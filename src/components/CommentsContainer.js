@@ -3,15 +3,7 @@ import { api } from "../utils/axios/axios";
 import PropTypes from "prop-types";
 import Comment from "./Comment";
 import Loader from "./Loader";
-
-// const Comment = React.lazy(
-//   () =>
-//     new Promise((resolve) => {
-//       setTimeout(() => {
-//         resolve(import("./Comment"));
-//       }, 4000);
-//     })
-// );
+import image from "../assets/icons-update.png";
 
 function CommentsContainer(props) {
   const { id } = props;
@@ -24,51 +16,18 @@ function CommentsContainer(props) {
   const getComments = async () => {
     try {
       const commentId = await api.get(`/item/${id}.json?print=pretty`);
-      
+
       if (!commentId.data.kids) {
         setComments(["No comments"]);
+        setIsLoading(false);
       } else {
         const obj = [];
-        
+
         commentId.data.kids.forEach((el, index) => {
           obj.push(<Comment key={index} id={el} />);
         });
         setComments([...obj]);
-        setIsLoading(false)
-        // commentId.data.kids.forEach(async (el) => {
-        //   try {
-        //     const res = await api.get(`/item/${el}.json?print=pretty`);
-        //     const data = res.data;
-        //     obj.push(data);
-
-        //     const commentsArr = obj.map((el, index) => {
-        //       if (!el.deleted && !el.dead) {
-        //         return (
-        //           <Comment
-        //             key={index}
-        //             id={el.id}
-        //             text={el.text}
-        //             nickname={el.by}
-        //             date={el.time}
-        //           />
-        //         );
-        //       } else {
-        //         return (
-        //           <Comment
-        //             key={index}
-        //             id={el.id}
-        //             text={"deleted"}
-        //             nickname={el.by}
-        //             date={el.time}
-        //           />
-        //         );
-        //       }
-        //     });
-        //     setComments([...commentsArr]);
-        //   } catch (err) {
-        //     console.error(err);
-        //   }
-        // });
+        setIsLoading(false);
       }
     } catch (e) {
       console.log(e);
@@ -90,7 +49,7 @@ function CommentsContainer(props) {
   }, []);
 
   const handleUpdateClick = () => {
-    setIsLoading(true)
+    setIsLoading(true);
     getComments();
     getCommentsCount();
   };
@@ -100,7 +59,7 @@ function CommentsContainer(props) {
       <div className="comments-header">
         <div className="comments__count" ref={commentsCountRef}></div>
         <img
-          src={process.env.PUBLIC_URL + "/icons-update.png"}
+          src={image}
           alt="update"
           className="update-comments-btn"
           type="button"

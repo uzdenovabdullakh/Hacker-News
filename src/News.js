@@ -30,6 +30,7 @@ function News() {
     try {
       const res = await api.get(`/item/${id}.json?print=pretty`);
       titleRef.current.innerHTML = res.data.title;
+      document.title = res.data.title
       nicknameRef.current.innerHTML = `by ${res.data.by}`;
       formateDate(res.data.time);
       urlRef.current.href = res.data.url;
